@@ -4,15 +4,15 @@ namespace LangtonsAntApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class GridController : ControllerBase
+public class CellsController : ControllerBase
 {
-    private readonly ILogger<GridController> _logger;
+    private readonly ILogger<CellsController> _logger;
     private const int ANTUP = 0;
     private const int ANTRIGHT = 1;
     private const int ANTDOWN = 2;
     private const int ANTLEFT = 3;
 
-    public GridController(ILogger<GridController> logger)
+    public CellsController(ILogger<CellsController> logger)
     {
         _logger = logger;
     }
@@ -20,12 +20,8 @@ public class GridController : ControllerBase
         public int X { get; set; }
         public int Y { get; set; }
     }
-/*
 
-const centerX = Math.floor(numberOfSquaresX/2)
-const centerY = Math.floor(numberOfSquaresY/2)
-*/
-    [HttpGet(Name = "GetGrid")]
+    [HttpGet(Name = "GetCells")]
     public IEnumerable<IEnumerable<int>> Get(int xDimension, int yDimension, int numberOfMoves)
     {
 
@@ -59,39 +55,16 @@ const centerY = Math.floor(numberOfSquaresY/2)
                             antDirection = rightTurn;
                         }
                         cells[j][k] = (cells[j][k] + 1) % 2;
+                        continue;
                     }
                 }
             }
+            antCoordinates = MoveForward(antDirection, antCoordinates);
         }
 
         return cells;
     }
-/*
-                var newCoordinates = moveForward()
 
-                for (var i=0; i<(Math.floor(window.innerWidth/10)); ++i) {
-                    newCellStates.push([])
-                    for (var j=0; j<(Math.floor(window.innerHeight/10)); ++j) {
-                        newCellStates[i].push(0)
-                        if (cellStates[i][j])
-                            newCellStates[i][j] = 1
-                        if (i == (newCoordinates.x) && j == (newCoordinates.y)) {
-                            if (newCellStates[i][j] == 1) {
-                                const leftTurn = ((antDirection - 1) + (Directions.ANTLEFT + 1)) % (Directions.ANTLEFT + 1)
-                                setAntDirection(leftTurn)
-                            } else {
-                                const rightTurn = ((antDirection + 1) + (Directions.ANTLEFT + 1)) % (Directions.ANTLEFT + 1)
-                                setAntDirection(rightTurn)
-                            }
-                            newCellStates[i][j] = (cellStates[i][j] + 1) % 2
-                        }
-                    }
-                }
-
-                setNumberOfMovesRemaining(numberOfMovesRemaining - 1)
-                setAntCoordinates(newCoordinates)
-                setCellStates(newCellStates)
-                */
     public Coordinates MoveForward(int currentDirection, Coordinates coordinates) {
         var newCoordinates = new Coordinates();
         switch (currentDirection) {
