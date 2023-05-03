@@ -1,3 +1,3 @@
-# Getting Started with Create React App
+# Langton's Ant Web Service
 
 run this project: dotnet run --project LangtonsAntApi.csproj
